@@ -39,6 +39,37 @@ T Polynomial<T>::operator[](size_t power) const {
     return coefficients[power];
 }
 
+template <typename T>
+void Polynomial<T>::set(size_t power, const T& value) {
+    if (power > degree) throw std::out_of_range("Power exceeds degree");
+    coefficients[power] = value;
+}
+
+
+template <typename T>
+void Polynomial<T>::shrink_to_fit() {
+    size_t new_degree = degree;
+    while (new_degree > 0 && coefficients[new_degree] == T{}) {
+        --new_degree;
+    }
+    if (new_degree != degree) {
+        T* new_coeffs = new T[new_degree + 1];
+        for (size_t i = 0; i <= new_degree; ++i) new_coeffs[i] = coefficients[i];
+        delete[] coefficients;
+        coefficients = new_coeffs;
+        degree = new_degree;
+    }
+}
+
+template <typename T>
+void Polynomial<T>::expand(size_t new_degree) {
+    if (new_degree <= degree) return;
+    T* new_coeffs = new T[new_degree + 1]{};
+    for (size_t i = 0; i <= degree; ++i) new_coeffs[i] = coefficients[i];
+    delete[] coefficients;
+    coefficients = new_coeffs;
+    degree = new_degree;
+}
 
 template <typename T>
 bool Polynomial<T>::operator==(const Polynomial& other) const {
@@ -57,8 +88,9 @@ bool Polynomial<T>::operator!=(const Polynomial& other) const {
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Polynomial<T>& poly) {
     for (size_t i = 0; i <= poly.get_degree(); ++i) {
-        os << poly[i] << "*x^"<<i;
-        if (i != poly.get_degree()) os << " + ";
+        os << poly[i];
+        if(i!=0) os << "x^" << i;
+        if (i != poly.get_degree()) os  << " + ";
     }
     return os;
 }

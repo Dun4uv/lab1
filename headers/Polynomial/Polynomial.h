@@ -21,6 +21,11 @@ public:
     ~Polynomial();
 
     T operator[](size_t power) const;
+    void set(size_t power, const T& value);
+
+    void shrink_to_fit();
+    void expand(size_t new_degree);
+
     bool operator==(const Polynomial& other) const;
     bool operator!=(const Polynomial& other) const;
 
