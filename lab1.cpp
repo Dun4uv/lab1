@@ -14,5 +14,18 @@ int main() {
 
     std::cout << "p1(x) = " << p1 << "\n";
     std::cout << "p2(x) = " << p2 << "\n";
+
+    auto sum = p1 + p2;
+    std::cout << "p1 + p2 = " << sum << "\n";
+
+    auto diff = p1 - p2;
+    std::cout << "p1 - p2 = " << diff << "\n";
+
+    auto scaled = p1 * 2;
+    std::cout << "p1 * 2 = " << scaled << "\n";
+
+    std::cout << "p1(2) = " << p1.evaluate(2) << "\n";
+
     return 0;
 }
+

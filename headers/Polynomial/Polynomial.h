@@ -23,6 +23,12 @@ public:
     T operator[](size_t power) const;
     void set(size_t power, const T& value);
 
+    Polynomial operator+(const Polynomial& other) const;
+    Polynomial operator-(const Polynomial& other) const;
+    Polynomial operator*(const T& scalar) const;
+
+    T evaluate(const T& x) const;
+
     void shrink_to_fit();
     void expand(size_t new_degree);
 
@@ -35,4 +41,4 @@ public:
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Polynomial<T>& poly);
 
-#endif 
+#endif

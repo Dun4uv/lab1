@@ -45,6 +45,51 @@ void Polynomial<T>::set(size_t power, const T& value) {
     coefficients[power] = value;
 }
 
+template <typename T>
+Polynomial<T> Polynomial<T>::operator+(const Polynomial& other) const {
+    size_t max_degree = std::max(degree, other.degree);
+    Polynomial result(max_degree);
+
+    for (size_t i = 0; i <= max_degree; ++i) {
+        T a = (i <= degree) ? coefficients[i] : T{};
+        T b = (i <= other.degree) ? other.coefficients[i] : T{};
+        result.set(i, a + b);
+    }
+    return result;
+}
+
+template <typename T>
+Polynomial<T> Polynomial<T>::operator-(const Polynomial& other) const {
+    size_t max_degree = std::max(degree, other.degree);
+    Polynomial result(max_degree);
+
+    for (size_t i = 0; i <= max_degree; ++i) {
+        T a = (i <= degree) ? coefficients[i] : T{};
+        T b = (i <= other.degree) ? other.coefficients[i] : T{};
+        result.set(i, a - b);
+    }
+    return result;
+}
+
+template <typename T>
+Polynomial<T> Polynomial<T>::operator*(const T& scalar) const {
+    Polynomial result(degree);
+    for (size_t i = 0; i <= degree; ++i) {
+        result.set(i, coefficients[i] * scalar);
+    }
+    return result;
+}
+
+template <typename T>
+T Polynomial<T>::evaluate(const T& x) const {
+    T result{};
+    T power = 1;
+    for (size_t i = 0; i <= degree; ++i) {
+        result += coefficients[i] * power;
+        power *= x;
+    }
+    return result;
+}
 
 template <typename T>
 void Polynomial<T>::shrink_to_fit() {
@@ -89,8 +134,8 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const Polynomial<T>& poly) {
     for (size_t i = 0; i <= poly.get_degree(); ++i) {
         os << poly[i];
-        if(i!=0) os << "x^" << i;
-        if (i != poly.get_degree()) os  << " + ";
+        if (i != 0) os << "x^" << i;
+        if (i != poly.get_degree()) os << " + ";
     }
     return os;
 }
