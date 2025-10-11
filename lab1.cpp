@@ -26,6 +26,13 @@ int main() {
 
     std::cout << "p1(2) = " << p1.evaluate(2) << "\n";
 
+    auto integral = p1.integral();
+    std::cout << "Integral of p1(x): " << integral << "\n";
+
+    auto definite = p1.definite_integral(0, 2);
+    std::cout << "Definite integral of p1(x) from 0 to 2 = " << definite << "\n";
+
+
     return 0;
 }
 

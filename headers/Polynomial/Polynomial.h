@@ -28,6 +28,8 @@ public:
     Polynomial operator*(const T& scalar) const;
 
     T evaluate(const T& x) const;
+    Polynomial<T> integral() const;
+    T definite_integral(const T& a, const T& b) const;
 
     void shrink_to_fit();
     void expand(size_t new_degree);

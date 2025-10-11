@@ -92,6 +92,30 @@ T Polynomial<T>::evaluate(const T& x) const {
 }
 
 template <typename T>
+Polynomial<T> Polynomial<T>::integral() const {
+    Polynomial<T> result(degree + 1); 
+
+    result.set(0, T{});
+
+    for (size_t i = 0; i <= degree; ++i) {
+        result.set(i + 1, coefficients[i] / static_cast<T>(i + 1));
+    }
+
+    return result;
+}
+
+template <typename T>
+T Polynomial<T>::definite_integral(const T& a, const T& b) const {
+    Polynomial<T> indef = this->integral();
+
+    T Fb = indef.evaluate(b);
+    T Fa = indef.evaluate(a);
+
+    return Fb - Fa;
+}
+
+
+template <typename T>
 void Polynomial<T>::shrink_to_fit() {
     size_t new_degree = degree;
     while (new_degree > 0 && coefficients[new_degree] == T{}) {
